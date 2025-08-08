@@ -9,16 +9,13 @@ import {
   Calendar,
   FileText,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import SubjectCard from '@/components/Dashboard/SubjectCard';
 
 const mockSubjects = [
   {
     id: '1',
     name: 'Computer Science',
-    color: 'bg-blue-500',
+    color: 'bg-primary',
     description: 'Algorithms & Data Structures',
     notesCount: 24,
     lastStudied: '2 hours ago',
@@ -28,7 +25,7 @@ const mockSubjects = [
   {
     id: '2',
     name: 'Mathematics',
-    color: 'bg-green-500',
+    color: 'bg-success',
     description: 'Calculus & Linear Algebra',
     notesCount: 18,
     lastStudied: '1 day ago',
@@ -37,7 +34,7 @@ const mockSubjects = [
   {
     id: '3',
     name: 'Physics',
-    color: 'bg-purple-500',
+    color: 'bg-info',
     description: 'Quantum Mechanics',
     notesCount: 15,
     lastStudied: '3 days ago',
@@ -46,7 +43,7 @@ const mockSubjects = [
   {
     id: '4',
     name: 'Chemistry',
-    color: 'bg-red-500',
+    color: 'bg-danger',
     description: 'Organic Chemistry',
     notesCount: 12,
     lastStudied: '1 week ago',
@@ -90,143 +87,149 @@ export default function Dashboard() {
   const [currentProgress, setCurrentProgress] = useState(68);
 
   return (
-    <div className="space-y-6">
+    <div className="container-fluid">
       {/* Welcome Header */}
-      <div className="flex items-center justify-between">
+      <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h1 className="text-3xl font-bold text-gradient">
+          <h1 className="display-5 fw-bold text-primary mb-1">
             Welcome back, John! 👋
           </h1>
-          <p className="text-muted-foreground mt-1">
+          <p className="text-muted">
             Ready to continue your learning journey?
           </p>
         </div>
-        <Button className="interactive-glow">
-          <Plus className="h-4 w-4 mr-2" />
+        <button className="btn btn-primary">
+          <Plus size={16} className="me-2" />
           New Subject
-        </Button>
+        </button>
       </div>
 
       {/* Study Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="row g-4 mb-4">
         {studyStats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <Card key={index} className="study-card">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
+            <div key={index} className="col-12 col-md-6 col-lg-3">
+              <div className="study-card h-100">
+                <div className="d-flex justify-content-between align-items-center">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">
+                    <small className="text-muted fw-medium">
                       {stat.title}
-                    </p>
-                    <p className="text-2xl font-bold">{stat.value}</p>
-                    <p className="text-xs text-muted-foreground mt-1 flex items-center">
-                      <TrendingUp className="h-3 w-3 mr-1" />
+                    </small>
+                    <h3 className="fw-bold mb-1">{stat.value}</h3>
+                    <small className="text-muted d-flex align-items-center">
+                      <TrendingUp size={12} className="me-1" />
                       {stat.change}
-                    </p>
+                    </small>
                   </div>
-                  <div className={`p-3 rounded-xl bg-muted/50 ${stat.color}`}>
-                    <Icon className="h-5 w-5" />
+                  <div className={`p-3 rounded-3 bg-light ${stat.color}`}>
+                    <Icon size={20} />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           );
         })}
       </div>
 
       {/* Weekly Goal Progress */}
-      <Card className="study-card">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="flex items-center gap-2">
-                <Award className="h-5 w-5 text-primary" />
-                Weekly Study Goal
-              </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
-                Track your weekly learning progress
-              </p>
-            </div>
-            <Button variant="outline" size="sm">
-              <Calendar className="h-4 w-4 mr-2" />
-              View Calendar
-            </Button>
+      <div className="study-card mb-4">
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h5 className="fw-bold d-flex align-items-center mb-1">
+              <Award size={20} className="text-primary me-2" />
+              Weekly Study Goal
+            </h5>
+            <small className="text-muted">
+              Track your weekly learning progress
+            </small>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">
-                {currentProgress}% of {weeklyGoal}% goal completed
-              </span>
-              <span className="text-sm text-muted-foreground">
-                {7 - Math.floor(currentProgress / (weeklyGoal / 7))} days remaining
-              </span>
-            </div>
-            <Progress value={(currentProgress / weeklyGoal) * 100} className="h-3" />
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">
-                Great progress! Keep it up! 🚀
-              </span>
-              <span className="font-medium text-primary">
-                {weeklyGoal - currentProgress}% to go
-              </span>
-            </div>
+          <button className="btn btn-outline-primary btn-sm">
+            <Calendar size={16} className="me-2" />
+            View Calendar
+          </button>
+        </div>
+        <div>
+          <div className="d-flex justify-content-between align-items-center mb-2">
+            <small className="fw-medium">
+              {currentProgress}% of {weeklyGoal}% goal completed
+            </small>
+            <small className="text-muted">
+              {7 - Math.floor(currentProgress / (weeklyGoal / 7))} days remaining
+            </small>
           </div>
-        </CardContent>
-      </Card>
+          <div className="progress mb-3" style={{ height: '12px' }}>
+            <div 
+              className="progress-bar bg-primary" 
+              style={{ width: `${(currentProgress / weeklyGoal) * 100}%` }}
+            />
+          </div>
+          <div className="d-flex justify-content-between align-items-center">
+            <small className="text-muted">
+              Great progress! Keep it up! 🚀
+            </small>
+            <small className="fw-medium text-primary">
+              {weeklyGoal - currentProgress}% to go
+            </small>
+          </div>
+        </div>
+      </div>
 
       {/* Subjects Grid */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold">Your Subjects</h2>
-          <Button variant="outline">
-            <Plus className="h-4 w-4 mr-2" />
+      <div className="mb-4">
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h2 className="fw-bold">Your Subjects</h2>
+          <button className="btn btn-outline-primary">
+            <Plus size={16} className="me-2" />
             Add Subject
-          </Button>
+          </button>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="row g-4">
           {mockSubjects.map((subject) => (
-            <SubjectCard
-              key={subject.id}
-              subject={subject}
-              onClick={() => console.log(`Opening subject: ${subject.name}`)}
-            />
+            <div key={subject.id} className="col-12 col-md-6 col-lg-4 col-xl-3">
+              <SubjectCard
+                subject={subject}
+                onClick={() => console.log(`Opening subject: ${subject.name}`)}
+              />
+            </div>
           ))}
         </div>
       </div>
 
       {/* Quick Actions */}
-      <Card className="study-card">
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Jump into your most common tasks
-          </p>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-16 flex-col">
-              <FileText className="h-5 w-5 mb-2" />
+      <div className="study-card">
+        <h5 className="fw-bold mb-1">Quick Actions</h5>
+        <small className="text-muted mb-3 d-block">
+          Jump into your most common tasks
+        </small>
+        <div className="row g-3">
+          <div className="col-6 col-md-3">
+            <button className="btn btn-outline-primary w-100 d-flex flex-column align-items-center py-3">
+              <FileText size={20} className="mb-2" />
               New Note
-            </Button>
-            <Button variant="outline" className="h-16 flex-col">
-              <BookOpen className="h-5 w-5 mb-2" />
-              Study Session
-            </Button>
-            <Button variant="outline" className="h-16 flex-col">
-              <Target className="h-5 w-5 mb-2" />
-              Take Quiz
-            </Button>
-            <Button variant="outline" className="h-16 flex-col">
-              <Award className="h-5 w-5 mb-2" />
-              AI Tools
-            </Button>
+            </button>
           </div>
-        </CardContent>
-      </Card>
+          <div className="col-6 col-md-3">
+            <button className="btn btn-outline-primary w-100 d-flex flex-column align-items-center py-3">
+              <BookOpen size={20} className="mb-2" />
+              Study Session
+            </button>
+          </div>
+          <div className="col-6 col-md-3">
+            <button className="btn btn-outline-primary w-100 d-flex flex-column align-items-center py-3">
+              <Target size={20} className="mb-2" />
+              Take Quiz
+            </button>
+          </div>
+          <div className="col-6 col-md-3">
+            <button className="btn btn-outline-primary w-100 d-flex flex-column align-items-center py-3">
+              <Award size={20} className="mb-2" />
+              AI Tools
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

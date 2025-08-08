@@ -1,16 +1,5 @@
 import { useState } from 'react';
 import { Brain, Search, Bell, Settings, User, Menu } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -21,90 +10,90 @@ export default function Header({ onMenuClick, showMobileMenu = false }: HeaderPr
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <header className="bg-card border-b border-border px-4 py-3 sticky top-0 z-50 backdrop-blur-sm">
-      <div className="flex items-center gap-4 max-w-screen-2xl mx-auto">
+    <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+      <div className="container-fluid">
         {/* Mobile Menu Button */}
         {showMobileMenu && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="md:hidden"
+          <button
+            className="btn btn-outline-secondary d-lg-none me-2"
+            type="button"
             onClick={onMenuClick}
           >
-            <Menu className="h-5 w-5" />
-          </Button>
+            <Menu size={20} />
+          </button>
         )}
 
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <div className="bg-gradient-primary p-2 rounded-xl shadow-glow">
-            <Brain className="h-6 w-6 text-white" />
+        <div className="d-flex align-items-center">
+          <div className="bg-primary text-white p-2 rounded-3 me-3">
+            <Brain size={24} />
           </div>
-          <div className="hidden sm:block">
-            <h1 className="text-xl font-bold text-gradient">StudyCompanion</h1>
-            <p className="text-xs text-muted-foreground">AI-Powered Learning</p>
+          <div className="d-none d-sm-block">
+            <h5 className="mb-0 fw-bold text-primary">StudyCompanion</h5>
+            <small className="text-muted">AI-Powered Learning</small>
           </div>
         </div>
 
         {/* Search Bar */}
-        <div className="flex-1 max-w-md mx-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
+        <div className="flex-fill mx-4" style={{ maxWidth: '400px' }}>
+          <div className="position-relative">
+            <Search 
+              className="position-absolute top-50 translate-middle-y text-muted" 
+              style={{ left: '12px', pointerEvents: 'none' }}
+              size={16}
+            />
+            <input
+              type="text"
+              className="form-control ps-5"
               placeholder="Search notes, subjects, or ask AI..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-muted/50 border-0 focus-visible:ring-primary"
             />
           </div>
         </div>
 
         {/* Right Side Actions */}
-        <div className="flex items-center gap-2">
+        <div className="d-flex align-items-center gap-2">
           {/* Notifications */}
-          <Button variant="ghost" size="sm" className="relative">
-            <Bell className="h-5 w-5" />
-            <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          <button className="btn btn-outline-secondary position-relative">
+            <Bell size={20} />
+            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
               3
             </span>
-          </Button>
+          </button>
 
           {/* Settings */}
-          <Button variant="ghost" size="sm">
-            <Settings className="h-5 w-5" />
-          </Button>
+          <button className="btn btn-outline-secondary">
+            <Settings size={20} />
+          </button>
 
           {/* User Profile */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-                <Avatar className="h-9 w-9">
-                  <AvatarImage src="" alt="User" />
-                  <AvatarFallback className="bg-primary text-primary-foreground">
-                    <User className="h-5 w-5" />
-                  </AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">John Student</p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    john@example.com
-                  </p>
+          <div className="dropdown">
+            <button 
+              className="btn btn-outline-secondary rounded-circle" 
+              type="button" 
+              data-bs-toggle="dropdown"
+              style={{ width: '40px', height: '40px' }}
+            >
+              <User size={20} />
+            </button>
+            <ul className="dropdown-menu dropdown-menu-end">
+              <li>
+                <div className="dropdown-header">
+                  <div className="fw-medium">John Student</div>
+                  <small className="text-muted">john@example.com</small>
                 </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Log out</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </li>
+              <li><hr className="dropdown-divider" /></li>
+              <li><a className="dropdown-item" href="#">Profile</a></li>
+              <li><a className="dropdown-item" href="#">Settings</a></li>
+              <li><a className="dropdown-item" href="#">Billing</a></li>
+              <li><hr className="dropdown-divider" /></li>
+              <li><a className="dropdown-item" href="#">Log out</a></li>
+            </ul>
+          </div>
         </div>
       </div>
-    </header>
+    </nav>
   );
 }

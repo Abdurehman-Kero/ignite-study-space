@@ -1,190 +1,84 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* AI Study Companion Design System */
-@layer base {
-  :root {
-    /* Core Brand Colors */
-    --background: 248 250 252;
-    --foreground: 226 232 240;
-    
-    /* Study-focused Primary Palette */
-    --primary: 239 68% 68%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 239 84% 78%;
-    
-    /* Professional Secondary */
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 0 0% 100%;
-    
-    /* Soft Neutrals */
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    
-    --accent: 142 76% 36%;
-    --accent-foreground: 0 0% 100%;
-    
-    /* Cards & Surfaces */
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    
-    /* Interactive Elements */
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 239 68% 68%;
-    
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    
-    /* Design System Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 40% 98%));
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(210 40% 96%));
-    
-    /* Shadows */
-    --shadow-elegant: 0 4px 20px -4px hsl(var(--primary) / 0.1);
-    --shadow-card: 0 2px 10px -2px hsl(222.2 84% 4.9% / 0.1);
-    --shadow-glow: 0 0 30px hsl(var(--primary-glow) / 0.3);
-    
-    /* Animation & Layout */
-    --radius: 0.75rem;
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+/* Bootstrap 5 Import */
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 15 23% 8%;
-    --foreground: 210 40% 98%;
-    
-    --primary: 239 68% 68%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 239 84% 78%;
-    
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
-    
-    --card: 24 33% 14%;
-    --card-foreground: 210 40% 98%;
-    
-    --popover: 24 33% 14%;
-    --popover-foreground: 210 40% 98%;
-    
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    
-    --accent: 142 76% 36%;
-    --accent-foreground: 210 40% 98%;
-    
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 239 68% 68%;
-    
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    
-    /* Dark mode gradients */
-    --gradient-card: linear-gradient(145deg, hsl(24 33% 14%), hsl(217.2 32.6% 17.5%));
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(24 33% 12%));
-    
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+/* AI Study Companion Custom Styles */
+:root {
+  --primary-color: #6366f1;
+  --primary-light: #818cf8;
+  --secondary-color: #1e293b;
+  --accent-color: #059669;
+  --background-light: #f8fafc;
+  --background-dark: #0f172a;
+  --card-shadow: 0 4px 20px -4px rgba(99, 102, 241, 0.1);
+  --card-shadow-hover: 0 8px 30px -8px rgba(99, 102, 241, 0.2);
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  
-  body {
-    @apply bg-background text-foreground font-sans;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background-color: var(--background-light);
 }
 
-@layer components {
-  /* Study Card Components */
-  .study-card {
-    @apply bg-card border border-border rounded-xl p-6 shadow-card transition-all duration-300;
-    @apply hover:shadow-elegant hover:-translate-y-1;
-    background: var(--gradient-card);
-  }
-  
-  .study-card-hero {
-    @apply study-card bg-primary text-primary-foreground;
-    background: var(--gradient-primary);
-  }
-  
-  /* Interactive Elements */
-  .interactive-glow {
-    @apply transition-all duration-300;
-    @apply hover:shadow-glow focus:shadow-glow;
-  }
-  
-  /* Animations */
-  .slide-up {
-    animation: slideUp 0.4s ease-out;
-  }
-  
-  .fade-in-scale {
-    animation: fadeInScale 0.5s ease-out;
-  }
-  
-  /* Study Progress Indicators */
-  .progress-ring {
-    @apply relative inline-flex items-center justify-center;
-  }
-  
-  .glass-effect {
-    @apply backdrop-blur-sm bg-white/10 border border-white/20;
-  }
+/* Custom Bootstrap overrides */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
-@layer utilities {
-  .text-gradient {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .transition-smooth {
-    transition: var(--transition-smooth);
-  }
-  
-  .transition-bounce {
-    transition: var(--transition-bounce);
-  }
+.btn-primary:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary-light);
 }
 
-/* Custom Animations */
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+/* Study Card Components */
+.study-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+
+.study-card:hover {
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.study-card-hero {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  color: white;
+  border: none;
+}
+
+/* Animations */
+.slide-up {
+  animation: slideUp 0.4s ease-out;
+}
+
+.fade-in-scale {
+  animation: fadeInScale 0.5s ease-out;
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -204,5 +98,42 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--background-dark);
+    color: white;
+  }
+  
+  .study-card {
+    background: #1e293b;
+    border-color: #334155;
+    color: white;
+  }
+  
+  .navbar-light {
+    background-color: var(--background-dark) !important;
+  }
+  
+  .navbar-light .navbar-brand,
+  .navbar-light .navbar-nav .nav-link {
+    color: white !important;
+  }
+}
+
+/* Custom sidebar styles */
+.sidebar {
+  background: white;
+  border-right: 1px solid #e2e8f0;
+  min-height: 100vh;
+}
+
+@media (prefers-color-scheme: dark) {
+  .sidebar {
+    background: #1e293b;
+    border-right-color: #334155;
   }
 }
