@@ -8,15 +8,15 @@ export default function MainLayout() {
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   return (
-    <div className="min-vh-100">
+    <div className="min-h-screen bg-gradient-subtle">
       <Header 
         onMenuClick={() => setShowMobileSidebar(true)}
         showMobileMenu
       />
       
-      <div className="d-flex">
+      <div className="flex">
         {/* Desktop Sidebar */}
-        <div className="d-none d-lg-block">
+        <div className="hidden md:block">
           <Sidebar 
             collapsed={sidebarCollapsed}
             onCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -25,28 +25,20 @@ export default function MainLayout() {
 
         {/* Mobile Sidebar Overlay */}
         {showMobileSidebar && (
-          <div className="position-fixed top-0 start-0 w-100 h-100" style={{ zIndex: 1040 }}>
+          <div className="fixed inset-0 z-40 md:hidden">
             <div 
-              className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"
+              className="fixed inset-0 bg-background/80 backdrop-blur-sm"
               onClick={() => setShowMobileSidebar(false)}
             />
-            <div 
-              className="position-fixed bg-white border-end h-100"
-              style={{ 
-                left: 0, 
-                top: '76px', 
-                width: '256px',
-                zIndex: 1050 
-              }}
-            >
+            <div className="fixed left-0 top-16 bottom-0 w-64 z-50">
               <Sidebar />
             </div>
           </div>
         )}
 
         {/* Main Content */}
-        <main className="flex-grow-1 p-4">
-          <div className="container-fluid">
+        <main className="flex-1 p-6 overflow-hidden">
+          <div className="max-w-screen-2xl mx-auto">
             <Outlet />
           </div>
         </main>

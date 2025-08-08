@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Search, Filter, Plus, Calendar, Tag } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import NotesEditor from '@/components/Notes/NotesEditor';
 
 interface Note {
@@ -65,107 +68,104 @@ export default function Notes() {
   }
 
   return (
-    <div className="container-fluid">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="display-5 fw-bold">My Notes</h1>
-          <p className="text-muted">
+          <h1 className="text-3xl font-bold">My Notes</h1>
+          <p className="text-muted-foreground mt-1">
             Organize and manage your study notes
           </p>
         </div>
-        <button onClick={handleNewNote} className="btn btn-primary">
-          <Plus size={16} className="me-2" />
+        <Button onClick={handleNewNote} className="interactive-glow">
+          <Plus className="h-4 w-4 mr-2" />
           New Note
-        </button>
+        </Button>
       </div>
 
       {/* Search and Filters */}
-      <div className="study-card mb-4">
-        <div className="d-flex gap-3">
-          <div className="flex-grow-1 position-relative">
-            <Search 
-              className="position-absolute top-50 translate-middle-y text-muted" 
-              style={{ left: '12px', pointerEvents: 'none' }}
-              size={16}
-            />
-            <input
-              type="text"
-              className="form-control ps-5"
-              placeholder="Search notes by title, content, or tags..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+      <Card>
+        <CardContent className="p-4">
+          <div className="flex gap-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search notes by title, content, or tags..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <Button variant="outline">
+              <Filter className="h-4 w-4 mr-2" />
+              Filter
+            </Button>
           </div>
-          <button className="btn btn-outline-primary">
-            <Filter size={16} className="me-2" />
-            Filter
-          </button>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
       {/* Notes Grid */}
       {filteredNotes.length > 0 ? (
-        <div className="row g-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredNotes.map((note) => (
-            <div key={note.id} className="col-12 col-md-6 col-lg-4 col-xl-3">
-              <div
-                className="study-card cursor-pointer h-100"
-                onClick={() => handleNoteSelect(note)}
-              >
-                <h6 className="fw-bold mb-2 text-truncate">
+            <Card
+              key={note.id}
+              className="study-card cursor-pointer"
+              onClick={() => handleNoteSelect(note)}
+            >
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg line-clamp-1">
                   {note.title}
-                </h6>
-                <div className="d-flex align-items-center gap-2 mb-3 text-muted">
-                  <Calendar size={12} />
-                  <small>{note.lastModified.toLocaleDateString()}</small>
+                </CardTitle>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Calendar className="h-3 w-3" />
+                  {note.lastModified.toLocaleDateString()}
                 </div>
-                <p className="text-muted small mb-3" style={{ 
-                  display: '-webkit-box',
-                  WebkitBoxOrient: 'vertical',
-                  WebkitLineClamp: 3,
-                  overflow: 'hidden'
-                }}>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-sm text-muted-foreground line-clamp-3">
                   {note.content || 'No content yet...'}
                 </p>
                 {note.tags.length > 0 && (
-                  <div className="d-flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1">
                     {note.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="badge bg-primary bg-opacity-10 text-primary"
+                        className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-primary/10 text-primary text-xs"
                       >
-                        <Tag size={10} className="me-1" />
+                        <Tag className="h-2 w-2" />
                         {tag}
                       </span>
                     ))}
                     {note.tags.length > 3 && (
-                      <small className="text-muted">
+                      <span className="text-xs text-muted-foreground">
                         +{note.tags.length - 3} more
-                      </small>
+                      </span>
                     )}
                   </div>
                 )}
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       ) : (
-        <div className="study-card text-center py-5">
-          <div className="mx-auto" style={{ maxWidth: '400px' }}>
-            <div className="bg-light rounded-circle p-4 mx-auto mb-4" style={{ width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Plus size={40} className="text-muted" />
+        <Card className="study-card text-center py-12">
+          <CardContent>
+            <div className="max-w-sm mx-auto">
+              <div className="bg-muted rounded-full p-3 w-16 h-16 mx-auto mb-4">
+                <Plus className="h-10 w-10 text-muted-foreground" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">No notes yet</h3>
+              <p className="text-muted-foreground mb-4">
+                Start creating notes to organize your study materials
+              </p>
+              <Button onClick={handleNewNote} className="interactive-glow">
+                <Plus className="h-4 w-4 mr-2" />
+                Create Your First Note
+              </Button>
             </div>
-            <h5 className="fw-bold mb-3">No notes yet</h5>
-            <p className="text-muted mb-4">
-              Start creating notes to organize your study materials
-            </p>
-            <button onClick={handleNewNote} className="btn btn-primary">
-              <Plus size={16} className="me-2" />
-              Create Your First Note
-            </button>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

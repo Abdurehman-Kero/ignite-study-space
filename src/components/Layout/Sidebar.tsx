@@ -12,6 +12,9 @@ import {
   ChevronDown,
   Plus,
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { cn } from '@/lib/utils';
 
 const navigationItems = [
   { name: 'Dashboard', href: '/', icon: BarChart3 },
@@ -23,10 +26,10 @@ const navigationItems = [
 ];
 
 const subjects = [
-  { name: 'Computer Science', color: 'bg-primary', count: 12 },
-  { name: 'Mathematics', color: 'bg-success', count: 8 },
-  { name: 'Physics', color: 'bg-info', count: 15 },
-  { name: 'Chemistry', color: 'bg-danger', count: 6 },
+  { name: 'Computer Science', color: 'bg-blue-500', count: 12 },
+  { name: 'Mathematics', color: 'bg-green-500', count: 8 },
+  { name: 'Physics', color: 'bg-purple-500', count: 15 },
+  { name: 'Chemistry', color: 'bg-red-500', count: 6 },
 ];
 
 interface SidebarProps {
@@ -44,97 +47,103 @@ export default function Sidebar({ collapsed = false }: SidebarProps) {
   };
 
   return (
-    <div 
-      className={`sidebar ${collapsed ? 'collapsed' : ''}`}
-      style={{ 
-        width: collapsed ? '64px' : '256px',
-        height: 'calc(100vh - 76px)',
-        transition: 'width 0.3s ease'
-      }}
-    >
-      <div className="h-100 p-3" style={{ overflowY: 'auto' }}>
+    <div className={cn(
+      'bg-card border-r border-border h-[calc(100vh-4rem)] transition-all duration-300',
+      collapsed ? 'w-16' : 'w-64'
+    )}>
+      <ScrollArea className="h-full px-3 py-4">
         {/* Main Navigation */}
-        <div className="mb-4">
-          {navigationItems.map((item) => {
-            const itemIsActive = isActive(item.href);
-            return (
-              <NavLink
-                key={item.name}
-                to={item.href}
-                className={`d-flex align-items-center text-decoration-none p-2 rounded mb-1 ${
-                  itemIsActive 
-                    ? 'bg-primary text-white' 
-                    : 'text-dark hover-bg-light'
-                }`}
-                style={{ gap: '12px' }}
-              >
-                <item.icon size={20} />
-                {!collapsed && (
-                  <span className="fw-medium">{item.name}</span>
-                )}
-              </NavLink>
-            );
-          })}
+        <div className="space-y-1 mb-6">
+          {navigationItems.map((item) => (
+            <NavLink
+              key={item.name}
+              to={item.href}
+              className={({ isActive: navIsActive }) =>
+                cn(
+                  'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group',
+                  navIsActive || isActive(item.href)
+                    ? 'bg-primary text-primary-foreground shadow-glow'
+                    : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+                )
+              }
+            >
+              <item.icon className="h-5 w-5 flex-shrink-0" />
+              {!collapsed && (
+                <span className="font-medium truncate">{item.name}</span>
+              )}
+            </NavLink>
+          ))}
         </div>
 
         {!collapsed && (
           <>
             {/* Quick Add */}
-            <div className="mb-4">
-              <button className="btn btn-success w-100 d-flex align-items-center justify-content-start">
-                <Plus size={16} className="me-2" />
+            <div className="mb-6">
+              <Button 
+                className="w-full justify-start bg-accent hover:bg-accent/80 text-accent-foreground"
+                size="sm"
+              >
+                <Plus className="h-4 w-4 mr-2" />
                 Quick Note
-              </button>
+              </Button>
             </div>
 
             {/* Subjects */}
-            <div>
-              <button
-                className="btn btn-link w-100 d-flex align-items-center justify-content-between p-2 text-decoration-none text-muted"
+            <div className="space-y-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full justify-between p-2 h-8"
                 onClick={() => setSubjectsExpanded(!subjectsExpanded)}
               >
-                <span className="fw-medium">Subjects</span>
+                <span className="text-sm font-medium text-muted-foreground">
+                  Subjects
+                </span>
                 <ChevronDown
-                  size={16}
-                  style={{
-                    transform: subjectsExpanded ? 'rotate(0deg)' : 'rotate(-90deg)',
-                    transition: 'transform 0.2s ease'
-                  }}
+                  className={cn(
+                    'h-4 w-4 transition-transform duration-200',
+                    subjectsExpanded ? 'rotate-0' : '-rotate-90'
+                  )}
                 />
-              </button>
+              </Button>
 
               {subjectsExpanded && (
-                <div className="ps-2">
+                <div className="space-y-1 pl-2">
                   {subjects.map((subject) => (
                     <button
                       key={subject.name}
-                      className="btn btn-link w-100 d-flex align-items-center text-decoration-none p-2 text-start hover-bg-light"
-                      style={{ gap: '12px' }}
+                      className="flex items-center gap-3 w-full px-2 py-2 rounded-md text-left hover:bg-muted transition-colors group"
                     >
-                      <div 
-                        className={`rounded-circle ${subject.color}`}
-                        style={{ width: '12px', height: '12px' }}
-                      />
-                      <div className="flex-grow-1">
-                        <div className="fw-medium text-dark">{subject.name}</div>
-                        <small className="text-muted">{subject.count} notes</small>
+                      <div className={cn('h-3 w-3 rounded-full', subject.color)} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">
+                          {subject.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {subject.count} notes
+                        </p>
                       </div>
                     </button>
                   ))}
                 </div>
               )}
             </div>
-
-            {/* Settings */}
-            <div className="mt-4 pt-4 border-top">
-              <button className="btn btn-link w-100 d-flex align-items-center text-decoration-none text-muted">
-                <Settings size={16} className="me-2" />
-                Settings
-              </button>
-            </div>
           </>
         )}
-      </div>
+
+        {!collapsed && (
+          <div className="mt-6 pt-6 border-t border-border">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full justify-start text-muted-foreground"
+            >
+              <Settings className="h-4 w-4 mr-2" />
+              Settings
+            </Button>
+          </div>
+        )}
+      </ScrollArea>
     </div>
   );
 }
