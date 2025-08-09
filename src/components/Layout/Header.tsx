@@ -89,9 +89,9 @@ export default function Header({ onMenuClick, showMobileMenu = false }: HeaderPr
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">John Student</p>
+                  <p className="text-sm font-medium leading-none">Group-6 Student</p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    john@example.com
+                    group6@example.com
                   </p>
                 </div>
               </DropdownMenuLabel>
