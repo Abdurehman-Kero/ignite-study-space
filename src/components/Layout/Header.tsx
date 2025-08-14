@@ -13,11 +13,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 interface HeaderProps {
-  onMenuClick?: () => void;
-  showMobileMenu?: boolean;
+  onMenuToggle: () => void;
 }
 
-export default function Header({ onMenuClick, showMobileMenu = false }: HeaderProps) {
+const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
