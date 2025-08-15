@@ -16,7 +16,7 @@ const MainLayout: React.FC = () => {
 
   return (
     <div className="app-layout">
-      <Sidebar active={sidebarActive} onClose={closeSidebar} />
+      <Sidebar isOpen={sidebarActive} onClose={closeSidebar} />
       
       {/* Mobile Overlay */}
       <div 
